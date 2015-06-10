@@ -44,8 +44,8 @@ public class RegexValidatorView extends ViewPart {
 		valueText.setLayoutData(td);
 
 		
-//		final Label imageLabel = toolkit.createLabel(form.getBody(),
-//				"dsdasdasd");
+		final Label imageLabel = toolkit.createLabel(form.getBody(),
+				"dsdasdasd");
 		Button validateButton = toolkit.createButton(form.getBody(),
 				"Validate", SWT.PUSH);
 		td = new TableWrapData(TableWrapData.RIGHT);
@@ -55,9 +55,10 @@ public class RegexValidatorView extends ViewPart {
 
 			public void handleEvent(Event event) {
 				if (patternText.getText() == "" && valueText.getText() == "") {
-//					ICON = Activator.getImageDescriptor(ICONS[0]);
-//					imageLabel.setImage(ICON.createImage());
-					System.out.println("Type texte please!");
+					ICON = Activator.getImageDescriptor(ICONS[0]);
+					imageLabel.setImage(ICON.createImage());
+					System.out.println("Input is empty!");
+					System.out.println("Please type a text!");
 				} else {
 
 					RegexValdidator regexValdidator = new RegexValdidator();
@@ -67,12 +68,12 @@ public class RegexValidatorView extends ViewPart {
 
 					boolean isValid = regexValdidator.validateRegex();
 					if (isValid) {
-//						ICON = Activator.getImageDescriptor(ICONS[1]);
-//						imageLabel.setImage(ICON.createImage());
+						ICON = Activator.getImageDescriptor(ICONS[1]);
+						imageLabel.setImage(ICON.createImage());
 						System.out.println("Expression is valid!");
 					} else {
-//						ICON = Activator.getImageDescriptor(ICONS[2]);
-//						imageLabel.setImage(ICON.createImage());
+						ICON = Activator.getImageDescriptor(ICONS[2]);
+						imageLabel.setImage(ICON.createImage());
 						System.out.println("Expression is not valid!");
 					}
 
