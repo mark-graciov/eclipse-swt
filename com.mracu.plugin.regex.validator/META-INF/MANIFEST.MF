@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Validator Plug-in
+Bundle-SymbolicName: com.mracu.plugin.regex.validator;singleton:=true
+Bundle-Version: 1.0.0
+Bundle-Activator: com.mracu.plugin.regex.validator.Activator
+Bundle-Vendor: MRACU
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.forms
+Eclipse-LazyStart: true

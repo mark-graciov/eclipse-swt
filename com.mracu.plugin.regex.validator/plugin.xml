@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <category
+            id="com.mracu.plugin.regex.validator.regexcategory"
+            name="Regex Validator">
+      </category>
+      <view
+            category="com.mracu.plugin.regex.validator.regexcategory"
+            class="com.mracu.plugin.regex.validator.RegexValidatorView"
+            icon="res/icons/regexBomb.png"
+            id="com.mracu.plugin.regex.validator.regexview"
+            name="Regex Validator">
+      </view>
+   </extension>
+
+</plugin>
