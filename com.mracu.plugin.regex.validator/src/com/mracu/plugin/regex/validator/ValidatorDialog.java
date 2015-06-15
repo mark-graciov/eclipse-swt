@@ -12,6 +12,14 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
+/**
+ * Create a dialog that contain fields for pattern and expression which must be
+ * <p>
+ * validated
+ * 
+ * @author Mihail Racu
+ * @version 1.00
+ * **/
 public class ValidatorDialog {
 	private static final String[] ICONS = { "icons/regexBomb.png",
 			"icons/no_text.png", "icons/valid.png", "icons/not_valid.png" };
@@ -22,6 +30,9 @@ public class ValidatorDialog {
 	private Text valueText;
 	private Shell shell;
 
+	/**
+	 * Constructor with a Composite parameter that create the validation box
+	 * **/
 	ValidatorDialog(Composite parent) {
 		shell = new Shell(parent.getShell(), SWT.RESIZE | SWT.MAX | SWT.MIN);
 		shell.setSize(SH_WIDTH, SH_HEIGHT);
@@ -73,6 +84,11 @@ public class ValidatorDialog {
 		shell.open();
 	}
 
+	/**
+	 * Method draws an icon that confirm or not the validation
+	 * 
+	 * @since verion 1.00
+	 * **/
 	public void drawValidation() {
 		if (patternText.getText() == "" && valueText.getText() == "") {
 			imageLabel.setImage(new Image(shell.getDisplay(), ResourceLoader
