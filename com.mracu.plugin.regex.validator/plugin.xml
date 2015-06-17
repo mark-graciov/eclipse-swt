@@ -10,7 +10,7 @@
       <view
             category="com.mracu.plugin.regex.validator.regexcategory"
             class="com.mracu.plugin.regex.validator.RegexValidatorView"
-            icon="icons/regexBomb.png"
+            icon="res/icons/regexBomb.png"
             id="com.mracu.plugin.regex.validator.regexview"
             name="Regex Validator">
       </view>
@@ -33,7 +33,7 @@
                label="RegexValidator">
             <command
                   commandId="com.mracu.plugin.regex.validator.RegexValidator"
-                  icon="icons/regexBomb.png"
+                  icon="res/icons/regexBomb.png"
                   label="RegexValidator"
                   style="push"
                   tooltip="Validate the expression">
@@ -46,7 +46,7 @@
                id="com.mracu.plugin.regex.validator.validatorToolbar">
             <command
                   commandId="com.mracu.plugin.regex.validator.RegexValidator"
-                  icon="icons/regexBomb.png"
+                  icon="res/icons/regexBomb.png"
                   label="RegexValidator"
                   style="push">
             </command>
