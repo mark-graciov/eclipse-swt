@@ -41,9 +41,9 @@ public class ValidatorDialog {
 		shell.setLayout(layout);
 		shell.setText("Regex Validator");
 
-		Image regexIcon = new Image(parent.getDisplay(), ResourceLoader
-				.load(ICONS[0]));
-		shell.setImage(regexIcon);
+//		Image regexIcon = new Image(parent.getDisplay(), ResourceLoader
+//				.load(ICONS[0]));
+//		shell.setImage(regexIcon);
 
 		layout.numColumns = 2;
 
