@@ -9,7 +9,7 @@
       </category>
       <view
             category="com.mracu.plugin.regex.validator.regexcategory"
-            class="com.mracu.plugin.regex.validator.RegexValidatorView"
+            class="com.mracu.plugin.regex.validator.viewer.RegexValidatorView"
             icon="res/icons/regexBomb.png"
             id="com.mracu.plugin.regex.validator.regexview"
             name="Regex Validator">

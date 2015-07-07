@@ -12,6 +12,9 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
+import com.mracu.plugin.regex.validator.util.ResourceLoader;
+
+
 /**
  * Create a dialog that contain fields for pattern and expression which must be
  * <p>

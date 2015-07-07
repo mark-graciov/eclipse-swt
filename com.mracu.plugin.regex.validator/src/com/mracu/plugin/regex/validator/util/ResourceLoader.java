@@ -1,4 +1,4 @@
-package com.mracu.plugin.regex.validator;
+package com.mracu.plugin.regex.validator.util;
 
 import java.io.InputStream;
 

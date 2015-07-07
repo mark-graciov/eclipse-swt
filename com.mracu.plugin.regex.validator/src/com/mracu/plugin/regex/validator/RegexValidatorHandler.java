@@ -13,6 +13,7 @@ public class RegexValidatorHandler extends AbstractHandler {
 
 		IWorkbenchWindow window = HandlerUtil
 				.getActiveWorkbenchWindowChecked(event);
+		@SuppressWarnings("unused")
 		ValidatorDialog validatorDialog = new ValidatorDialog(window.getShell());
 
 		return null;
