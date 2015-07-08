@@ -18,7 +18,7 @@
    <extension
          point="org.eclipse.ui.commands">
       <command
-            category="com.mracu.plugin.regex.validator.regexCategory"
+            category="com.mracu.plugin.regex.validator.regexcategory"
             defaultHandler="com.mracu.plugin.regex.validator.RegexValidatorHandler"
             id="com.mracu.plugin.regex.validator.RegexValidator"
             name="RegexValidator">
