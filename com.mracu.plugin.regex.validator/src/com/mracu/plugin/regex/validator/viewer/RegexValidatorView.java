@@ -9,6 +9,7 @@ import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -22,14 +23,17 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.part.ViewPart;
 
+import com.mracu.plugin.regex.validator.RegexValdidator;
 import com.mracu.plugin.regex.validator.model.Pattern;
 import com.mracu.plugin.regex.validator.model.PatternDataStore;
+import com.mracu.plugin.regex.validator.util.ResourceLoader;
 import com.mracu.plugin.regex.validator.viewer.dialogs.AddUpdateDialog;
 
 public class RegexValidatorView extends ViewPart {
 	ArrayList<Pattern> patternDataList = new ArrayList<Pattern>();
 	ListViewer viewer;
 	Label labelIsValid;
+	Text expressionText;
 	FormToolkit toolkit;
 
 	@Override
@@ -44,15 +48,12 @@ public class RegexValidatorView extends ViewPart {
 	}
 
 	public void createListSection(FormToolkit toolkit, Composite parent) {
-		Section listSection = toolkit.createSection(parent, Section.DESCRIPTION
-				| Section.TITLE_BAR);
-		GridData gridData = new GridData(GridData.FILL, GridData.FILL, true,
-				true);
+		Section listSection = toolkit.createSection(parent, Section.DESCRIPTION | Section.TITLE_BAR);
+		GridData gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
 		gridData.minimumWidth = 300;
 		listSection.setLayoutData(gridData);
 		listSection.setText("Pattern list");
-		listSection
-				.setDescription("This section contain list of patterns that can be matched");
+		listSection.setDescription("This section contain list of patterns that can be matched");
 		Composite listClient = toolkit.createComposite(listSection);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
@@ -64,41 +65,33 @@ public class RegexValidatorView extends ViewPart {
 	}
 
 	public void createExpressionSection(FormToolkit toolkit, Composite parent) {
-		Section expressionSection = toolkit.createSection(parent,
-				Section.DESCRIPTION | Section.TITLE_BAR);
-		GridData gridData = new GridData(GridData.FILL, GridData.FILL, true,
-				true);
+		Section expressionSection = toolkit.createSection(parent, Section.DESCRIPTION | Section.TITLE_BAR);
+		GridData gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
 		gridData.minimumWidth = 300;
 		expressionSection.setLayoutData(gridData);
 		expressionSection.setText("Expression");
-		expressionSection
-				.setDescription("This section contain expression to match");
+		expressionSection.setDescription("This section contain expression to match");
 		Composite expresionClient = toolkit.createComposite(expressionSection);
 		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		expresionClient.setLayout(gridLayout);
 		createExpressionArea(expresionClient);
 		expressionSection.setClient(expresionClient);
-		gridData.minimumHeight = expressionSection.computeSize(SWT.DEFAULT,
-				SWT.DEFAULT).x;
-		gridData.minimumWidth = expressionSection.computeSize(SWT.DEFAULT,
-				SWT.DEFAULT).y;
+		gridData.minimumHeight = expressionSection.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
+		gridData.minimumWidth = expressionSection.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
 	}
 
 	public void createPaternListView(Composite parent) {
 
-		List patternList = new List(parent, SWT.MULTI | SWT.BORDER
-				| SWT.V_SCROLL | SWT.COMPOSITION_SELECTION);
-		GridData gridData = new GridData(GridData.FILL, GridData.FILL, true,
-				true);
+		List patternList = new List(parent, SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.COMPOSITION_SELECTION);
+		GridData gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
 		gridData.verticalSpan = 4;
 		patternList.setLayoutData(gridData);
 		viewer = new ListViewer(patternList);
 		viewer.setLabelProvider(new ListLabelPrivider());
 		viewer.setSorter(new ViewerSorter() {
 			public int compare(Viewer viewer, Object obj1, Object obj2) {
-				return ((Pattern) obj1).getPatternName().compareToIgnoreCase(
-						((Pattern) obj2).getPatternName());
+				return ((Pattern) obj1).getPatternName().compareToIgnoreCase(((Pattern) obj2).getPatternName());
 			}
 		});
 		viewer.setContentProvider(new ListContentProvider());
@@ -118,14 +111,13 @@ public class RegexValidatorView extends ViewPart {
 
 		buttonAdd.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				AddUpdateDialog dlg = new AddUpdateDialog(shell,
-						new AddUpdateDialog.AddCallback() {
-							@Override
-							public void onAdd(String pName, String pValue) {
-								patternDataList.add(new Pattern(pName, pValue));
-								saveData(patternDataList);
-							}
-						});
+				AddUpdateDialog dlg = new AddUpdateDialog(shell, new AddUpdateDialog.AddCallback() {
+					@Override
+					public void onAdd(String pName, String pValue) {
+						patternDataList.add(new Pattern(pName, pValue));
+						saveData(patternDataList);
+					}
+				});
 
 				dlg.open();
 				viewer.refresh();
@@ -137,29 +129,27 @@ public class RegexValidatorView extends ViewPart {
 		buttonModify.setLayoutData(gridData);
 		buttonModify.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				IStructuredSelection selection = (IStructuredSelection) viewer
-						.getSelection();
+				IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 
 				Pattern pattern = (Pattern) selection.getFirstElement();
 				final int index = patternDataList.indexOf(pattern);
 				if (pattern == null) {
-					MessageBox messageBox = new MessageBox(shell,
-							SWT.ICON_WARNING | SWT.OK);
+					MessageBox messageBox = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
 					messageBox.setMessage("Please select pattern first");
 					messageBox.open();
-				}
-				AddUpdateDialog dlg = new AddUpdateDialog(shell,
-						new AddUpdateDialog.AddCallback() {
-							@Override
-							public void onAdd(String pName, String pValue) {
+				} else {
+					AddUpdateDialog dlg = new AddUpdateDialog(shell, new AddUpdateDialog.AddCallback() {
+						@Override
+						public void onAdd(String pName, String pValue) {
 
-								patternDataList.set(index, new Pattern(pName,
-										pValue));
-								saveData(patternDataList);
-							}
-						}, pattern);
-				dlg.open();
-				viewer.refresh();
+							patternDataList.set(index, new Pattern(pName, pValue));
+							saveData(patternDataList);
+						}
+					}, pattern);
+					dlg.open();
+					viewer.refresh();
+				}
+
 			}
 		});
 
@@ -168,18 +158,15 @@ public class RegexValidatorView extends ViewPart {
 		buttonRemove.setLayoutData(gridData);
 		buttonRemove.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(SelectionEvent event) {
-				IStructuredSelection selection = (IStructuredSelection) viewer
-						.getSelection();
+				IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 
 				Pattern pattern = (Pattern) selection.getFirstElement();
 				if (pattern == null) {
-					MessageBox messageBox = new MessageBox(shell,
-							SWT.ICON_WARNING | SWT.OK);
+					MessageBox messageBox = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
 					messageBox.setMessage("Please select pattern first");
 					messageBox.open();
 				}
-				System.out.println(pattern.getPatternName()
-						+ pattern.getPatternValue());
+				System.out.println(pattern.getPatternName() + pattern.getPatternValue());
 				patternDataList.remove(pattern);
 				saveData(patternDataList);
 
@@ -189,13 +176,12 @@ public class RegexValidatorView extends ViewPart {
 
 	}
 
-	public void createExpressionArea(Composite parent) {
-		GridData gridData = new GridData(GridData.FILL, GridData.FILL, true,
-				true);
+	public void createExpressionArea(final Composite parent) {
+		final Shell shell = parent.getShell();
+		GridData gridData = new GridData(GridData.FILL, GridData.FILL, true, true);
 		gridData.horizontalSpan = 2;
 
-		Text expressionText = toolkit.createText(parent, "", SWT.MULTI
-				| SWT.V_SCROLL | SWT.BORDER | SWT.WRAP);
+		expressionText = toolkit.createText(parent, "", SWT.MULTI | SWT.V_SCROLL | SWT.BORDER | SWT.WRAP);
 		expressionText.setLayoutData(gridData);
 
 		gridData = new GridData(GridData.FILL);
@@ -206,6 +192,31 @@ public class RegexValidatorView extends ViewPart {
 		Button validateButton = new Button(parent, SWT.PUSH);
 		validateButton.setText("Validate");
 		validateButton.setLayoutData(gridData);
+		validateButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent event) {
+				IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+
+				Pattern pattern = (Pattern) selection.getFirstElement();
+				if (pattern == null || expressionText.getText().isEmpty()) {
+					MessageBox messageBox = new MessageBox(shell, SWT.ICON_WARNING | SWT.OK);
+					messageBox.setMessage("Pattern or expression is empty!");
+					messageBox.open();
+				} else {
+					RegexValdidator regexValdidator = new RegexValdidator();
+					regexValdidator.setPatternWord(expressionText.getText());
+					regexValdidator.setExpWord(pattern.getPatternValue());
+
+					boolean isValid = regexValdidator.validateRegex();
+					if (isValid) {
+						labelIsValid.setImage(new Image(parent.getDisplay(), ResourceLoader.load("icons/valid.png")));
+					} else {
+						labelIsValid
+								.setImage(new Image(parent.getDisplay(), ResourceLoader.load("icons/not_valid.png")));
+					}
+				}
+
+			}
+		});
 	}
 
 	public ArrayList<Pattern> loadData() {
