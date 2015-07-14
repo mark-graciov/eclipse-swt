@@ -14,7 +14,6 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 import com.mracu.plugin.regex.validator.util.ResourceLoader;
 
-
 /**
  * Create a dialog that contain fields for pattern and expression which must be
  * <p>
@@ -22,10 +21,10 @@ import com.mracu.plugin.regex.validator.util.ResourceLoader;
  * 
  * @author Mihail Racu
  * @version 1.00
- * **/
+ **/
 public class ValidatorDialog {
-	private static final String[] ICONS = { "icons/regexBomb.png",
-			"icons/no_text.png", "icons/valid.png", "icons/not_valid.png" };
+	private static final String[] ICONS = { "icons/regexBomb.png", "icons/no_text.png", "icons/valid.png",
+			"icons/not_valid.png" };
 	private static final int SH_WIDTH = 320;
 	private static final int SH_HEIGHT = 136;
 	private Label imageLabel;
@@ -35,17 +34,16 @@ public class ValidatorDialog {
 
 	/**
 	 * Constructor with a Composite parameter that create the validation box
-	 * **/
+	 **/
 	ValidatorDialog(Composite parent) {
-		shell = new Shell(parent.getShell(), SWT.RESIZE | SWT.MAX | SWT.MIN);
+		shell = new Shell(parent.getShell(), SWT.RESIZE | SWT.MAX | SWT.MIN | SWT.CLOSE);
 		shell.setSize(SH_WIDTH, SH_HEIGHT);
 		shell.setMinimumSize(SH_WIDTH, SH_HEIGHT);
 		TableWrapLayout layout = new TableWrapLayout();
 		shell.setLayout(layout);
 		shell.setText("Regex Validator");
 
-		Image regexIcon = new Image(parent.getDisplay(),
-				ResourceLoader.load(ICONS[0]));
+		Image regexIcon = new Image(parent.getDisplay(), ResourceLoader.load(ICONS[0]));
 		shell.setImage(regexIcon);
 
 		layout.numColumns = 2;
@@ -91,11 +89,10 @@ public class ValidatorDialog {
 	 * Method draws an icon that confirm or not the validation
 	 * 
 	 * @since verion 1.00
-	 * **/
+	 **/
 	public void drawValidation() {
-		if (patternText.getText() == "" && valueText.getText() == "") {
-			imageLabel.setImage(new Image(shell.getDisplay(), ResourceLoader
-					.load(ICONS[1])));
+		if (patternText.getText().isEmpty() || valueText.getText().isEmpty()) {
+			imageLabel.setImage(new Image(shell.getDisplay(), ResourceLoader.load(ICONS[1])));
 		} else {
 			RegexValdidator regexValdidator = new RegexValdidator();
 			regexValdidator.setPatternWord(patternText.getText());
@@ -103,11 +100,9 @@ public class ValidatorDialog {
 
 			boolean isValid = regexValdidator.validateRegex();
 			if (isValid) {
-				imageLabel.setImage(new Image(shell.getDisplay(),
-						ResourceLoader.load(ICONS[2])));
+				imageLabel.setImage(new Image(shell.getDisplay(), ResourceLoader.load(ICONS[2])));
 			} else {
-				imageLabel.setImage(new Image(shell.getDisplay(),
-						ResourceLoader.load(ICONS[3])));
+				imageLabel.setImage(new Image(shell.getDisplay(), ResourceLoader.load(ICONS[3])));
 			}
 		}
 	}
