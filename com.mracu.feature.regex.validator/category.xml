@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <category-def name="regex" label="RegexValidator"/>
+   <category-def name="regex" label="RegexValidator">
+      <description>
+         A small plugin for regex validation
+      </description>
+   </category-def>
 </site>
